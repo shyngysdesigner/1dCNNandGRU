@@ -1,0 +1,6 @@
+PEMS-BAY*.csv
+traffic_model.pth
+.DS_Store
+.venv/
+__pycache__/
+*.pth
