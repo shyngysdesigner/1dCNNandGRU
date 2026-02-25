@@ -4,298 +4,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predicting Traffic Flow | SN</title>
-    <!-- Google Colors / Material UI + Samsung One UI styles -->
-    <link rel="stylesheet" href="style.css">
+    <title>Hybrid Traffic Prediction Model | Shyngys Narseyit</title>
+    <!-- IBM Plex Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
     <!-- Highlight.js for Code Snippets -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
 </head>
 
 <body>
-    <!-- Background Abstract Blobs for Glassmorphism WOW effect -->
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
-    <div class="bg-blob blob-3"></div>
-
-    <nav class="g-nav glass-panel">
-        <div class="brand">
-            <div class="hero-g-logo">
-                <div class="circle c-blue animate-pulse"></div>
-                <div class="circle c-red animate-pulse" style="animation-delay: 0.2s"></div>
-                <div class="circle c-yellow animate-pulse" style="animation-delay: 0.4s"></div>
-                <div class="circle c-green animate-pulse" style="animation-delay: 0.6s"></div>
+    <!-- Top Navigation (Coursera/IBM Style) -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-logo">
+                <span class="logo-mark">SN</span>
+                <span class="logo-text">Applied Data Projects</span>
             </div>
-            <span>SN</span> Portfolio
+            <nav class="main-nav">
+                <a href="#overview">Overview</a>
+                <a href="#methodology">Methodology</a>
+                <a href="#architecture">Architecture</a>
+                <a href="#results">Results</a>
+            </nav>
+            <div class="header-actions">
+                <a href="https://github.com/shyngysdesigner/1dCNNandGRU" class="btn btn-primary" target="_blank">
+                    <i data-lucide="github"></i> View Repository
+                </a>
+            </div>
         </div>
-        <div class="nav-links">
-            <a href="#ideation" class="nav-link">Ideation</a>
-            <a href="#problem" class="nav-link">Problem</a>
-            <a href="#methodology" class="nav-link">Methodology</a>
-            <a href="#architecture" class="nav-link">Architecture</a>
-        </div>
-        <a href="https://github.com/shyngysdesigner/1dCNNandGRU" class="btn-primary" target="_blank">
-            <i data-lucide="github"></i> GitHub
-        </a>
-    </nav>
+    </header>
 
-    <main>
-        <!-- 1. Hero -->
-        <section class="hero glass-panel reveal active" id="hero">
-            <div class="one-ui-header">
-                <h1 class="gradient-text">Predicting the Unpredictable</h1>
-                <p class="hero-p">A powerful spatial-temporal <strong>Hybrid CNN-GRU</strong> model implemented in
-                    PyTorch for precise, dynamic traffic flow prediction.</p>
+    <!-- Main Content Layout -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-block">
+                <h3 class="sidebar-title">Project Contents</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#overview" class="active"><i data-lucide="file-text"></i> 1. Project Overview</a></li>
+                    <li><a href="#ideation"><i data-lucide="lightbulb"></i> 2. Concept & Ideation</a></li>
+                    <li><a href="#methodology"><i data-lucide="database"></i> 3. Data Engineering</a></li>
+                    <li><a href="#architecture"><i data-lucide="cpu"></i> 4. Model Architecture</a></li>
+                    <li><a href="#code"><i data-lucide="code"></i> 5. Implementation</a></li>
+                    <li><a href="#results"><i data-lucide="bar-chart-2"></i> 6. Evaluation</a></li>
+                </ul>
             </div>
-            <div class="hero-visual" id="data-stream">
-                <!-- Abstract Data particles will be generated here by JS -->
-            </div>
-            <div style="display: flex; gap: 16px; justify-content: center; margin-top: 2rem;">
-                <a href="#architecture" class="btn-primary" style="transform: scale(1.1); font-weight:600;">View
-                    Architecture</a>
-                <a href="#results" class="btn-secondary" style="transform: scale(1.1); font-weight:600;">View
-                    Results</a>
-            </div>
-        </section>
-
-        <!-- 2. Ideation -->
-        <section class="reveal" id="ideation">
-            <div class="section-header one-ui-title">
-                <h2>Initial Thoughts & Planning</h2>
-                <p>How I approached the complexity of traffic prediction before writing a single line of code.</p>
-            </div>
-            <div class="grid-2">
-                <div class="g-card glass-panel hover-lift">
-                    <div class="icon-box ib-blue bounce"><i data-lucide="brain"></i></div>
-                    <h3>Mental Sandbox</h3>
-                    <p class="text-secondary">
-                        Traffic isn't just a basic time-series; it's a living grid. A traffic jam on Road A directly
-                        impacts Road B a few minutes later. Standard models fail because they only look at one
-                        dimension. I needed a model that could "see" the map geometrically and "remember" the timeline
-                        chronologically.
-                    </p>
-                </div>
-                <div class="g-card glass-panel hover-lift">
-                    <div class="icon-box ib-red bounce" style="animation-delay:0.2s"><i data-lucide="merge"></i></div>
-                    <h3>The Synthesis</h3>
-                    <p class="text-secondary">
-                        Let a <strong class="color-blue">1D CNN</strong> act as the "eyes," scanning across all 325
-                        sensors simultaneously to understand local spatial bounds. Then, pass that compressed
-                        understanding to a <strong class="color-red">GRU</strong>, acting as the "memory loop" to
-                        project traffic speeds securely into the future.
-                    </p>
+            <div class="sidebar-block meta-block">
+                <h3 class="sidebar-title">Technologies</h3>
+                <div class="tag-list">
+                    <span class="tag">PyTorch</span>
+                    <span class="tag">Scikit-Learn</span>
+                    <span class="tag">Pandas</span>
+                    <span class="tag">NumPy</span>
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <!-- 3. Methodology & Design Choices -->
-        <section class="reveal" id="methodology">
-            <div class="section-header one-ui-title">
-                <h2>Data Engineering & Methodology</h2>
-                <p>Injecting physics and continuity into numerical data, and handling the sliding window.</p>
-            </div>
+        <!-- Main Content Area -->
+        <main class="content-area">
 
-            <div class="g-card glass-panel methodology-card">
-                <div class="grid-2">
-                    <div>
-                        <h3>Data Scaling & Features</h3>
-                        <p class="text-secondary">
-                            The raw PEMS-BAY dataset holds over 52,000 timesteps across 325 sensors. Missing values were
-                            patched using <strong>linear interpolation</strong>. Using Scikit-learn's
-                            <code>MinMaxScaler</code>, I constrained the sensor attributes to prevent gradient
-                            explosions.
-                        </p>
-                        <ul class="fancy-list">
-                            <li><i data-lucide="check-circle" class="color-green"></i> <strong>Sine/Cosine
-                                    Embeddings</strong>: Added circular time properties (hours/days).</li>
-                            <li><i data-lucide="check-circle" class="color-blue"></i> <strong>Kernel = 3</strong>:
-                                Optimal for Conv1d to catch local intersections.</li>
-                            <li><i data-lucide="check-circle" class="color-yellow"></i> <strong>Sequence = 12</strong>:
-                                12 x 5-minute ticks = 1 Hour context window.</li>
+            <!-- Hero Section -->
+            <section id="overview" class="page-section section-hero">
+                <div class="ibm-label">Deep Learning Case Study</div>
+                <h1 class="page-title">Predicting the Unpredictable: Traffic Flow Forecasting</h1>
+                <p class="page-subtitle">A high-performance spatial-temporal Hybrid CNN-GRU model engineered to process
+                    complex urban traffic networks.</p>
+
+                <div class="hero-stats-grid mt-4">
+                    <div class="stat-box">
+                        <span class="stat-label">Sensors Processed</span>
+                        <span class="stat-value">325</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Timesteps Analyzed</span>
+                        <span class="stat-value">52,000+</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Prediction Accuracy (R²)</span>
+                        <span class="stat-value highlight">0.633</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ideation -->
+            <section id="ideation" class="page-section reveal">
+                <h2 class="section-heading">Concept & Ideation</h2>
+                <div class="coursera-panel">
+                    <div class="panel-content">
+                        <h3><i data-lucide="info"></i> The Challenge of Urban Traffic</h3>
+                        <p>Traffic is not a simple linear progression. It is an interconnected grid where a congestion
+                            event at one location cascades geometrically across other nodes. Traditional time-series
+                            models treat data purely chronologically, failing to capture the structural geography of
+                            roads.</p>
+                        <p class="mt-3"><strong>The Solution: Hybridization</strong></p>
+                        <p>By merging a <strong>1-Dimensional Convolutional Neural Network (CNN)</strong> to rapidly
+                            compress spatial geography, with a <strong>Gated Recurrent Unit (GRU)</strong> to retain
+                            temporal memory, we engineered a model capable of recognizing both <em>where</em> and
+                            <em>when</em> traffic patterns emerge.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Methodology -->
+            <section id="methodology" class="page-section reveal">
+                <h2 class="section-heading">Data Engineering & Transformation</h2>
+                <div class="grid-layout cols-2">
+                    <div class="data-card">
+                        <div class="data-icon"><i data-lucide="waves"></i></div>
+                        <h4>Cyclical Temporal Features</h4>
+                        <p>Traffic displays strong periodicity (rush hour, weekends). To allow neural networks to
+                            interpret "midnight" wrapping back to "morning," continuous variables were mapped into
+                            circular coordinate space using sine and cosine transformations.</p>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-icon"><i data-lucide="minimize-2"></i></div>
+                        <h4>MinMax Normalization</h4>
+                        <p>To accelerate gradient descent and prevent exploding gradients, input velocities across all
+                            325 sensors were constrained strictly within a range of [0, 1] using Scikit-Learn's robust
+                            scaling methodologies.</p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h4>Sliding Window Algorithm</h4>
+                    <p class="text-secondary">Generating training sequences by sliding a constant-size temporal window
+                        across our time-series dataset.</p>
+                    <!-- IBM Data Process UI -->
+                    <div class="ibm-process-ui mt-3">
+                        <div class="process-track">
+                            <div class="data-block block-x">T-11</div>
+                            <div class="data-block block-x">...</div>
+                            <div class="data-block block-x">T-2</div>
+                            <div class="data-block block-x">T-1</div>
+                            <div class="data-block block-x current">T=0</div>
+                            <div class="arrow-right"><i data-lucide="arrow-right"></i></div>
+                            <div class="data-block block-y target">T+1</div>
+                        </div>
+                        <div class="process-legend mt-3">
+                            <span class="legend-item"><span class="color-swatch bg-blue"></span> Input Sequence (X) -> 1
+                                Hour / 12 steps</span>
+                            <span class="legend-item"><span class="color-swatch bg-green"></span> Prediction Target
+                                (y)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Architecture Comparison -->
+            <section id="architecture" class="page-section reveal">
+                <h2 class="section-heading">Model Architecture</h2>
+                <p>A comparative structural analysis of sequence modeling approaches.</p>
+
+                <div class="architecture-grid mt-4">
+                    <div class="arch-col disable-col">
+                        <div class="arch-header">Pure CNN</div>
+                        <ul class="arch-list">
+                            <li><i data-lucide="check" class="text-green"></i> Excellent spatial mapping</li>
+                            <li><i data-lucide="x" class="text-red"></i> Lacks sequential state memory</li>
                         </ul>
                     </div>
-
-                    <div class="interactive-code-box">
-                        <div class="code-mac-header">
-                            <span class="mac-dot red"></span>
-                            <span class="mac-dot yellow"></span>
-                            <span class="mac-dot green"></span>
-                            <span class="code-title">load_and_enrich_data.py</span>
-                        </div>
-                        <pre><code class="language-python"># Sine & Cosine Cyclical Transformations
-time_features['sin_hour'] = np.sin(2*np.pi * hour / 24.0)
-time_features['cos_hour'] = np.cos(2*np.pi * hour / 24.0)
-time_features['sin_day'] = np.sin(2*np.pi * day / 7.0)
-time_features['cos_day'] = np.cos(2*np.pi * day / 7.0)
-# Feed into the Spatial-Temporal Engine
-df = pd.concat([df, time_features], axis=1)</code></pre>
+                    <div class="arch-col disable-col">
+                        <div class="arch-header">Pure LSTM</div>
+                        <ul class="arch-list">
+                            <li><i data-lucide="x" class="text-red"></i> Blind to physical geography</li>
+                            <li><i data-lucide="check" class="text-green"></i> Strong long-term memory</li>
+                        </ul>
                     </div>
-                </div>
-
-                <div class="sw-section mt-4">
-                    <h3>Sliding Window Animation</h3>
-                    <p class="text-secondary mb-2">Watch how the sequence of 12 historical steps predicts the future.
-                    </p>
-                    <div class="sw-anim-box glass-panel">
-                        <div class="sw-row">
-                            <div class="sw-cell">T1</div>
-                            <div class="sw-cell">T2</div>
-                            <div class="sw-cell">T3</div>
-                            <div class="sw-cell">T4</div>
-                            <div class="sw-cell">T5</div>
-                            <div class="sw-cell">T6</div>
-                            <div class="sw-cell">T7</div>
-                            <div class="sw-cell">T8</div>
-                            <div class="sw-cell">T9</div>
-                            <div class="sw-cell">T10</div>
-                            <div class="sw-cell">T11</div>
-
-                            <div class="sw-x-box"><span class="label-xy color-blue">Inputs (X) Context</span></div>
-                            <div class="sw-y-box"><span class="label-xy color-green">Target (y)</span></div>
+                    <div class="arch-col active-col">
+                        <div class="ibm-badge">Selected Architecture</div>
+                        <div class="arch-header highlight">1D CNN + GRU</div>
+                        <ul class="arch-list">
+                            <li><i data-lucide="check" class="text-ibm-blue"></i> Fast spatial feature extraction</li>
+                            <li><i data-lucide="check" class="text-ibm-blue"></i> Robust temporal retention</li>
+                            <li><i data-lucide="check" class="text-ibm-blue"></i> Reduced parameter footprint</li>
+                        </ul>
+                        <!-- Animated flow within the active column -->
+                        <div class="model-flow-diagram mt-3">
+                            <div class="node-box cnn-node">Conv1d Layer</div>
+                            <div class="flow-arrow-down"></div>
+                            <div class="node-box gru-node">GRU Memory Layers</div>
+                            <div class="flow-arrow-down"></div>
+                            <div class="node-box linear-node">Dense Output</div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- 4. Architecture Showdown (Visual representation) -->
-        <section class="reveal" id="architecture">
-            <div class="section-header one-ui-title text-center">
-                <h2>The Neural Architecture Showdown</h2>
-                <p>Comparing deep learning paradigms inside a visual flow.</p>
-            </div>
-
-            <div class="architecture-flow-container glass-panel">
-                <div class="flow-step">
-                    <div class="flow-icon float-anim"><i data-lucide="image"></i></div>
-                    <h4>Pure CNN</h4>
-                    <span class="bad-badge">No Time Memory</span>
-                </div>
-                <div class="flow-arrow"><i data-lucide="arrow-right"></i> VS <i data-lucide="arrow-left"></i></div>
-                <div class="flow-step">
-                    <div class="flow-icon float-anim" style="animation-delay:0.3s"><i data-lucide="history"></i></div>
-                    <h4>Pure LSTM/GRU</h4>
-                    <span class="bad-badge">No True Spatial Depth</span>
-                </div>
-                <div class="flow-arrow"><i data-lucide="arrow-down"></i></div>
-            </div>
-
-            <div class="glass-panel winner-card reveal mx-auto text-center mt-3">
-                <div class="winner-badge pulse-ring">🏆 The Hybrid Solution</div>
-                <h3 class="gradient-text">1D CNN + Stacked GRU</h3>
-                <p class="text-secondary">CNN extracts spatial logic lightning-fast, and GRU handles the temporal
-                    prediction.</p>
-                <div class="neural-network-anim" id="network-visual">
-                    <!-- Network nodes generated via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. Interactive Code Walkthrough -->
-        <section class="reveal" id="code">
-            <div class="section-header one-ui-title">
-                <h2>Architecture Core Code</h2>
-                <p>Explore the PyTorch HybridTrafficModel</p>
-            </div>
-            <div class="g-card glass-panel code-showcase">
-                <div class="code-mac-header">
-                    <span class="mac-dot red"></span>
-                    <span class="mac-dot yellow"></span>
-                    <span class="mac-dot green"></span>
-                    <span class="code-title">traffic_prediction.py &middot; HybridTrafficModel</span>
-                </div>
-                <pre class="hljs-container"><code class="language-python">class HybridTrafficModel(nn.Module):
+            <!-- Implementation -->
+            <section id="code" class="page-section reveal">
+                <h2 class="section-heading">Core Implementation</h2>
+                <p>The PyTorch module defining the dual spatial and temporal propagation phases.</p>
+                <div class="ibm-code-block mt-3">
+                    <div class="code-header">
+                        <span class="file-icon"><i data-lucide="file-code"></i></span>
+                        <span class="file-name">traffic_prediction.py</span>
+                        <span class="file-lang">Python</span>
+                    </div>
+                    <pre><code class="language-python">class HybridTrafficModel(nn.Module):
     def __init__(self, num_input_features, num_output_sensors, seq_length):
         super().__init__()
         
-        # 1. Spatial Trend Extraction (CNN acts as eyes)
+        # 1. Spatial Phase (CNN)
         self.conv1 = nn.Conv1d(num_input_features, 64, kernel_size=3, padding=1)
         self.bn1 = nn.BatchNorm1d(64)
         
-        # 2. Temporal Dynamics (GRU acts as memory loop)
+        # 2. Temporal Phase (GRU)
         self.gru1 = nn.GRU(input_size=64, hidden_size=128, batch_first=True)
         self.gru2 = nn.GRU(input_size=128, hidden_size=64, batch_first=True)
         self.bn2 = nn.BatchNorm1d(64)
         
-        # 3. Dense Prediction Head
+        # 3. Decision Phase
         self.fc1 = nn.Linear(64, 64)
         self.fc_out = nn.Linear(64, num_output_sensors)
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(0.2)
 
     def forward(self, x):
-        # Permute for Conv1d: (Batch, Features, Seq_Length)
+        # Transpose for Conv1d: (Batch, Features, Sequence)
         x = x.permute(0, 2, 1)
         x = self.relu(self.bn1(self.conv1(x)))
         
-        # Permute for GRU: (Batch, Seq_Length, Features)
+        # Transpose for GRU: (Batch, Sequence, Features)
         x = x.permute(0, 2, 1)
         x, _ = self.gru1(x)
         x = self.dropout(x)
         x, _ = self.gru2(x)
         
-        # Take last time step
+        # Extract the final hidden state
         x = self.dropout(self.bn2(x[:, -1, :]))
         return self.fc_out(self.relu(self.fc1(x)))</code></pre>
-            </div>
-        </section>
-
-        <!-- 6. Results & Conclusion -->
-        <section class="reveal" id="results">
-            <div class="section-header one-ui-title text-center">
-                <h2>Training Results</h2>
-                <p>The outcome from processing 52,000 steps.</p>
-            </div>
-
-            <div class="grid-3 mb-4">
-                <div class="metric-card glass-panel text-center hover-lift">
-                    <div class="metric-value color-blue count-up" data-target="0.633">0.000</div>
-                    <p class="metric-label">R² Score</p>
                 </div>
-                <div class="metric-card glass-panel text-center hover-lift">
-                    <div class="metric-value color-red count-up" data-target="2.348">0.000</div>
-                    <p class="metric-label">Mean Abs Error</p>
-                </div>
-                <div class="metric-card glass-panel text-center hover-lift">
-                    <div class="metric-value color-yellow count-up" data-target="4.214">0.000</div>
-                    <p class="metric-label">RMSE</p>
-                </div>
-            </div>
+            </section>
 
-            <div class="glass-panel text-center p-3 chart-container">
-                <img src="traffic_analysis.png" alt="Training Visuals" class="results-img" />
-            </div>
-        </section>
-    </main>
+            <!-- Results -->
+            <section id="results" class="page-section mb-6 reveal">
+                <h2 class="section-heading">Evaluation & Metrics</h2>
+                <hr class="ibm-divider">
 
-    <footer class="glass-panel" style="border-radius:0; border-bottom:none; border-left:none; border-right:none;">
-        <p>Built with precision & passion by <strong class="color-blue">Shyngys Narseyit</strong>. © 2026</p>
-        <p class="text-secondary mt-2">Styled with Samsung One UI x Google Material Design Guidelines</p>
-    </footer>
+                <div class="results-dashboard mt-4">
+                    <div class="metrics-row">
+                        <div class="metric-block">
+                            <span class="metric-title">Coefficient of Determination</span>
+                            <div class="metric-value text-ibm-blue count-up" data-target="0.633">0.000</div>
+                            <span class="metric-unit">R² Score</span>
+                        </div>
+                        <div class="metric-block">
+                            <span class="metric-title">Mean Absolute Error</span>
+                            <div class="metric-value count-up" data-target="2.348">0.000</div>
+                            <span class="metric-unit">Velocity Variance</span>
+                        </div>
+                        <div class="metric-block">
+                            <span class="metric-title">Root Mean Squared Error</span>
+                            <div class="metric-value count-up" data-target="4.214">0.000</div>
+                            <span class="metric-unit">Error Penalty</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coursera-panel mt-4">
+                    <img src="traffic_analysis.png" alt="Training Visuals" class="results-chart-img" />
+                    <div class="chart-caption">Figure 1.0: Real versus Predicted values over hold-out validation set.
+                        Early stopping engaged at epoch constraint to prevent overfitting.</div>
+                </div>
+            </section>
+
+            <footer class="app-footer">
+                <div class="footer-content">
+                    <p>&copy; 2026 Shyngys Narseyit. Enterprise Data Solutions.</p>
+                    <p class="text-secondary mt-1">Designed following IBM Carbon Design System methodologies.</p>
+                </div>
+            </footer>
+        </main>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Icons
             lucide.createIcons();
+
+            // Initialize Code highlighting
             hljs.highlightAll();
 
-            // Intersectional Observer for Scroll Reveals
-            const revealElements = document.querySelectorAll('.reveal');
+            // Scroll animations & Metric Count Up
+            const revealElements = document.querySelectorAll('.page-section');
             const revealObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        // Run count up animations if it's the results section
+                        entry.target.classList.add('visible');
+
+                        // Handle counter up animation
                         if (entry.target.id === 'results') {
-                            document.querySelectorAll('.count-up').forEach(counter => {
+                            const counters = document.querySelectorAll('.count-up');
+                            counters.forEach(counter => {
+                                if (counter.classList.contains('counted')) return;
+                                counter.classList.add('counted');
                                 const target = parseFloat(counter.getAttribute('data-target'));
-                                const duration = 1500; // ms
-                                const steps = 60;
-                                const stepTime = Math.abs(Math.floor(duration / steps));
+                                const duration = 1200;
+                                const steps = 40;
+                                const stepTime = duration / steps;
                                 let current = 0;
                                 const timer = setInterval(() => {
                                     current += target / steps;
@@ -307,47 +319,32 @@ df = pd.concat([df, time_features], axis=1)</code></pre>
                                 }, stepTime);
                             });
                         }
-                        observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
             revealElements.forEach(el => revealObserver.observe(el));
 
-            // Generate particles for hero
-            const stream = document.getElementById('data-stream');
-            if (stream) {
-                for (let i = 0; i < 30; i++) {
-                    let particle = document.createElement('div');
-                    particle.className = 'data-particle';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    particle.style.animationDelay = (Math.random() * 2) + 's';
-                    stream.appendChild(particle);
-                }
-            }
+            // Sidebar Active state sync
+            const sections = document.querySelectorAll('.page-section');
+            const navLinks = document.querySelectorAll('.sidebar-menu a');
 
-            // Generate Neural Network Node visualisation
-            const networkVisual = document.getElementById('network-visual');
-            if (networkVisual) {
-                for (let i = 0; i < 15; i++) {
-                    let node = document.createElement('div');
-                    node.className = 'nn-node';
-                    node.style.left = (Math.random() * 90) + '%';
-                    node.style.top = (Math.random() * 90) + '%';
-                    node.style.animationDelay = (Math.random() * 2) + 's';
-                    networkVisual.appendChild(node);
-
-                    if (i > 0) {
-                        let line = document.createElement('div');
-                        line.className = 'nn-line';
-                        line.style.left = node.style.left;
-                        line.style.top = node.style.top;
-                        line.style.width = (Math.random() * 50 + 20) + 'px';
-                        line.style.transform = `rotate(${Math.random() * 360}deg)`;
-                        networkVisual.appendChild(line);
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 100) {
+                        current = section.getAttribute('id');
                     }
-                }
-            }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
