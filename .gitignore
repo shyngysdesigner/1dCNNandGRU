@@ -4,3 +4,6 @@ traffic_model.pth
 .venv/
 __pycache__/
 *.pth
+myenv/
+venv2/
+pip_libs/
